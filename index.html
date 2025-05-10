@@ -45,16 +45,16 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: Arial, sans-serif;
-            font-size: 1.5rem;
+            font-size: 2rem; /* Doubled from ~1rem */
         }
         input, select, button {
             font-family: Arial, sans-serif;
-            font-size: 1.5rem;
+            font-size: 2rem; /* Doubled from ~1rem */
         }
         .progress-bar {
-            height: 40px;
+            height: 40px; /* Doubled from 20px */
             background-color: #333;
-            border-radius: 20px;
+            border-radius: 20px; /* Doubled from 10px */
             overflow: hidden;
         }
         .progress-bar div {
@@ -64,82 +64,82 @@
         }
     </style>
 </head>
-<body class="flex flex-col items-center min-h-screen p-6">
-    <div id="main-container" class="w-full max-w-lg">
+<body class="flex flex-col items-center min-h-screen p-8"> <!-- p-4 → p-8 -->
+    <div id="main-container" class="w-full max-w-2xl"> <!-- max-w-md → max-w-2xl -->
         <!-- Timer Page -->
         <div id="timer-page" class="flex flex-col items-center">
-            <p class="text-pink-400 italic text-2xl mb-6">For the most beautiful girl in the world, Hiba 💖</p>
-            <div class="flex space-x-6 mb-6">
+            <p class="text-pink-400 italic text-3xl mb-8">For the most beautiful girl in the world, Hiba 💖</p> <!-- text-lg → text-3xl, mb-4 → mb-8 -->
+            <div class="flex space-x-8 mb-8"> <!-- space-x-4 → space-x-8, mb-4 → mb-8 -->
                 <div class="text-center">
-                    <label class="block text-2xl mb-2">HOURS</label>
-                    <input id="hours" type="number" min="0" max="99" value="0" class="w-24 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+                    <label class="block text-3xl mb-2">HOURS</label> <!-- text-xl → text-3xl, mb-1 → mb-2 -->
+                    <input id="hours" type="number" min="0" max="99" value="0" class="w-32 text-center text-4xl bg-gray-800 text-white border-none rounded p-2"> <!-- w-16 → w-32, text-2xl → text-4xl, p-1 → p-2 -->
                 </div>
                 <div class="text-center">
-                    <label class="block text-2xl mb-2">MINUTES</label>
-                    <input id="minutes" type="number" min="0" max="59" value="1" class="w-24 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+                    <label class="block text-3xl mb-2">MINUTES</label>
+                    <input id="minutes" type="number" min="0" max="59" value="1" class="w-32 text-center text-4xl bg-gray-800 text-white border-none rounded p-2">
                 </div>
                 <div class="text-center">
-                    <label class="block text-2xl mb-2">SECONDS</label>
-                    <input id="seconds" type="number" min="0" max="59" value="0" class="w-24 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+                    <label class="block text-3xl mb-2">SECONDS</label>
+                    <input id="seconds" type="number" min="0" max="59" value="0" class="w-32 text-center text-4xl bg-gray-800 text-white border-none rounded p-2">
                 </div>
             </div>
-            <div class="mb-6 w-full text-center">
-                <label class="block text-2xl mb-2">INTERVAL (MINUTES)</label>
-                <input id="interval" type="number" min="0" step="0.1" value="0.5" class="w-28 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+            <div class="mb-8 w-full text-center"> <!-- mb-4 → mb-8 -->
+                <label class="block text-3xl mb-2">INTERVAL (MINUTES)</label>
+                <input id="interval" type="number" min="0" step="0.1" value="0.5" class="w-40 text-center text-4xl bg-gray-800 text-white border-none rounded p-2"> <!-- w-20 → w-40 -->
             </div>
-            <div class="progress-bar w-full max-w-md mb-6">
+            <div class="progress-bar w-full max-w-md mb-8"> <!-- max-w-xs → max-w-md, mb-4 → mb-8 -->
                 <div id="progress" class="w-0"></div>
             </div>
-            <p id="time-display" class="text-3xl mb-6" style="color: var(--time-color);">TIME LEFT: 0:00</p>
-            <div class="flex space-x-6">
-                <button id="start-stop" class="px-6 py-3 text-xl font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">START TIMER</button>
-                <button id="settings-btn" class="px-6 py-3 text-xl font-bold rounded" style="background-color: var(--settings-bg); color: var(--settings-fg);">SETTINGS</button>
+            <p id="time-display" class="text-4xl mb-8" style="color: var(--time-color);">TIME LEFT: 0:00</p> <!-- text-2xl → text-4xl, mb-4 → mb-8 -->
+            <div class="flex space-x-8"> <!-- space-x-4 → space-x-8 -->
+                <button id="start-stop" class="px-8 py-4 text-2xl font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">START TIMER</button> <!-- px-4 → px-8, py-2 → py-4, text-lg → text-2xl -->
+                <button id="settings-btn" class="px-8 py-4 text-2xl font-bold rounded" style="background-color: var(--settings-bg); color: var(--settings-fg);">SETTINGS</button>
             </div>
         </div>
         <!-- Settings Page -->
         <div id="settings-page" class="flex flex-col items-center hidden">
-            <p class="text-pink-400 italic text-2xl mb-6">For the most beautiful girl in the world, Hiba 💖</p>
-            <div class="w-full mb-6">
-                <label class="block text-2xl mb-2">AVAILABLE SOUNDS</label>
-                <select id="sound-choice" class="w-full p-3 text-xl bg-gray-800 text-white border-none rounded"></select>
-                <div class="flex space-x-6 mt-3">
-                    <button id="add-sound" class="px-6 py-2 text-xl font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">ADD SOUND</button>
-                    <button id="remove-sound" class="px-6 py-2 text-xl font-bold bg-red-600 text-white rounded">REMOVE SOUND</button>
+            <p class="text-pink-400 italic text-3xl mb-8">For the most beautiful girl in the world, Hiba 💖</p>
+            <div class="w-full mb-8">
+                <label class="block text-3xl mb-2">AVAILABLE SOUNDS</label>
+                <select id="sound-choice" class="w-full p-4 text-2xl bg-gray-800 text-white border-none rounded"></select> <!-- p-2 → p-4, text-xl → text-2xl -->
+                <div class="flex space-x-8 mt-4"> <!-- space-x-4 → space-x-8, mt-2 → mt-4 -->
+                    <button id="add-sound" class="px-8 py-2 text-2xl font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">ADD SOUND</button> <!-- px-4 → px-8, py-1 → py-2, text-lg → text-2xl -->
+                    <button id="remove-sound" class="px-8 py-2 text-2xl font-bold bg-red-600 text-white rounded">REMOVE SOUND</button>
                 </div>
                 <input id="sound-input" type="file" accept="audio/*" class="hidden">
             </div>
-            <div class="w-full mb-6">
-                <label class="block text-2xl mb-2">SELECT THEME</label>
-                <div class="flex space-x-3">
-                    <button class="theme-btn px-6 py-2 text-xl font-bold rounded bg-green-500 text-black" data-theme="dark">DARK</button>
-                    <button class="theme-btn px-6 py-2 text-xl font-bold rounded bg-red-500 text-white" data-theme="red">RED</button>
-                    <button class="theme-btn px-6 py-2 text-xl font-bold rounded bg-blue-500 text-white" data-theme="blue">BLUE</button>
+            <div class="w-full mb-8">
+                <label class="block text-3xl mb-2">SELECT THEME</label>
+                <div class="flex space-x-4"> <!-- space-x-2 → space-x-4 -->
+                    <button class="theme-btn px-8 py-2 text-2xl font-bold rounded bg-green-500 text-black" data-theme="dark">DARK</button> <!-- px-4 → px-8, py-1 → py-2, text-lg → text-2xl -->
+                    <button class="theme-btn px-8 py-2 text-2xl font-bold rounded bg-red-500 text-white" data-theme="red">RED</button>
+                    <button class="theme-btn px-8 py-2 text-2xl font-bold rounded bg-blue-500 text-white" data-theme="blue">BLUE</button>
                 </div>
             </div>
-            <div class="w-full mb-6">
-                <label class="block text-2xl mb-2">DEFAULT INTERVAL (MIN)</label>
-                <input id="default-interval" type="number" min="0" step="0.1" value="0.5" class="w-28 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+            <div class="w-full mb-8">
+                <label class="block text-3xl mb-2">DEFAULT INTERVAL (MIN)</label>
+                <input id="default-interval" type="number" min="0" step="0.1" value="0.5" class="w-40 text-center text-4xl bg-gray-800 text-white border-none rounded p-2"> <!-- w-20 → w-40 -->
             </div>
-            <div class="w-full mb-6">
-                <label class="block text-2xl mb-2">DEFAULT TIMER VALUES</label>
-                <div class="flex space-x-6">
+            <div class="w-full mb-8">
+                <label class="block text-3xl mb-2">DEFAULT TIMER VALUES</label>
+                <div class="flex space-x-8"> <!-- space-x-4 → space-x-8 -->
                     <div>
-                        <label class="block text-xl">HOURS</label>
-                        <input id="default-hours" type="number" min="0" max="99" value="0" class="w-24 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+                        <label class="block text-2xl">HOURS</label> <!-- text-lg → text-2xl -->
+                        <input id="default-hours" type="number" min="0" max="99" value="0" class="w-32 text-center text-4xl bg-gray-800 text-white border-none rounded p-2"> <!-- w-16 → w-32 -->
                     </div>
                     <div>
-                        <label class="block text-xl">MINUTES</label>
-                        <input id="default-minutes" type="number" min="0" max="59" value="1" class="w-24 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+                        <label class="block text-2xl">MINUTES</label>
+                        <input id="default-minutes" type="number" min="0" max="59" value="1" class="w-32 text-center text-4xl bg-gray-800 text-white border-none rounded p-2">
                     </div>
                     <div>
-                        <label class="block text-xl">SECONDS</label>
-                        <input id="default-seconds" type="number" min="0" max="59" value="0" class="w-24 text-center text-3xl bg-gray-800 text-white border-none rounded p-2">
+                        <label class="block text-2xl">SECONDS</label>
+                        <input id="default-seconds" type="number" min="0" max="59" value="0" class="w-32 text-center text-4xl bg-gray-800 text-white border-none rounded p-2">
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col space-y-3">
-                <button id="save-settings" class="px-6 py-2 text-xl font-bold rounded" style="background-color: var(--settings-bg); color: var(--settings-fg);">SAVE NOW</button>
-                <button id="back-to-timer" class="px-6 py-2 text-xl font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">BACK TO TIMER</button>
+            <div class="flex flex-col space-y-4"> <!-- space-y-2 → space-y-4 -->
+                <button id="save-settings" class="px-8 py-2 text-2xl font-bold rounded" style="background-color: var(--settings-bg); color: var(--settings-fg);">SAVE NOW</button> <!-- px-4 → px-8, py-1 → py-2 -->
+                <button id="back-to-timer" class="px-8 py-2 text-2xl font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">BACK TO TIMER</button>
             </div>
         </div>
     </div>
