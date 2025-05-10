@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Alpha Timer">
+    <title>Alpha Timer</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏰</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: white;
+            --button-bg: #00ff00;
+            --button-fg: black;
+            --settings-bg: #3333ff;
+            --settings-fg: white;
+            --progress-color: #00ff00;
+            --time-color: #00ff00;
+            --stop-color: #ff3333;
+        }
+        [data-theme="red"] {
+            --bg-color: #2a1a1a;
+            --button-bg: #ff3333;
+            --button-fg: white;
+            --settings-bg: #990000;
+            --progress-color: #ff3333;
+            --time-color: #ff3333;
+            --stop-color: #cc0000;
+        }
+        [data-theme="blue"] {
+            --bg-color: #1a1a2a;
+            --button-bg: #3333ff;
+            --button-fg: white;
+            --settings-bg: #000099;
+            --progress-color: #3333ff;
+            --time-color: #3333ff;
+            --stop-color: #0000cc;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+        }
+        input, select, button {
+            font-family: Arial, sans-serif;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar div {
+            height: 100%;
+            background-color: var(--progress-color);
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center min-h-screen p-4">
+    <div id="main-container" class="w-full max-w-md">
+        <!-- Timer Page -->
+        <div id="timer-page" class="flex flex-col items-center">
+            <p class="text-pink-400 italic text-lg mb-4">For the most beautiful girl in the world, Hiba 💖</p>
+            <div class="flex space-x-4 mb-4">
+                <div class="text-center">
+                    <label class="block text-xl mb-1">HOURS</label>
+                    <input id="hours" type="number" min="0" max="99" value="0" class="w-16 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+                </div>
+                <div class="text-center">
+                    <label class="block text-xl mb-1">MINUTES</label>
+                    <input id="minutes" type="number" min="0" max="59" value="1" class="w-16 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+                </div>
+                <div class="text-center">
+                    <label class="block text-xl mb-1">SECONDS</label>
+                    <input id="seconds" type="number" min="0" max="59" value="0" class="w-16 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+                </div>
+            </div>
+            <div class="mb-4 w-full text-center">
+                <label class="block text-xl mb-1">INTERVAL (MINUTES)</label>
+                <input id="interval" type="number" min="0" step="0.1" value="0.5" class="w-20 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+            </div>
+            <div class="progress-bar w-full max-w-xs mb-4">
+                <div id="progress" class="w-0"></div>
+            </div>
+            <p id="time-display" class="text-2xl mb-4" style="color: var(--time-color);">TIME LEFT: 0:00</p>
+            <div class="flex space-x-4">
+                <button id="start-stop" class="px-4 py-2 text-lg font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">START TIMER</button>
+                <button id="settings-btn" class="px-4 py-2 text-lg font-bold rounded" style="background-color: var(--settings-bg); color: var(--settings-fg);">SETTINGS</button>
+            </div>
+        </div>
+        <!-- Settings Page -->
+        <div id="settings-page" class="flex flex-col items-center hidden">
+            <p class="text-pink-400 italic text-lg mb-4">For the most beautiful girl in the world, Hiba 💖</p>
+            <div class="w-full mb-4">
+                <label class="block text-xl mb-1">AVAILABLE SOUNDS</label>
+                <select id="sound-choice" class="w-full p-2 text-xl bg-gray-800 text-white border-none rounded"></select>
+                <div class="flex space-x-4 mt-2">
+                    <button id="add-sound" class="px-4 py-1 text-lg font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">ADD SOUND</button>
+                    <button id="remove-sound" class="px-4 py-1 text-lg font-bold bg-red-600 text-white rounded">REMOVE SOUND</button>
+                </div>
+                <input id="sound-input" type="file" accept="audio/*" class="hidden">
+            </div>
+            <div class="w-full mb-4">
+                <label class="block text-xl mb-1">SELECT THEME</label>
+                <div class="flex space-x-2">
+                    <button class="theme-btn px-4 py-1 text-lg font-bold rounded bg-green-500 text-black" data-theme="dark">DARK</button>
+                    <button class="theme-btn px-4 py-1 text-lg font-bold rounded bg-red-500 text-white" data-theme="red">RED</button>
+                    <button class="theme-btn px-4 py-1 text-lg font-bold rounded bg-blue-500 text-white" data-theme="blue">BLUE</button>
+                </div>
+            </div>
+            <div class="w-full mb-4">
+                <label class="block text-xl mb-1">DEFAULT INTERVAL (MIN)</label>
+                <input id="default-interval" type="number" min="0" step="0.1" value="0.5" class="w-20 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+            </div>
+            <div class="w-full mb-4">
+                <label class="block text-xl mb-1">DEFAULT TIMER VALUES</label>
+                <div class="flex space-x-4">
+                    <div>
+                        <label class="block text-lg">HOURS</label>
+                        <input id="default-hours" type="number" min="0" max="99" value="0" class="w-16 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+                    </div>
+                    <div>
+                        <label class="block text-lg">MINUTES</label>
+                        <input id="default-minutes" type="number" min="0" max="59" value="1" class="w-16 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+                    </div>
+                    <div>
+                        <label class="block text-lg">SECONDS</label>
+                        <input id="default-seconds" type="number" min="0" max="59" value="0" class="w-16 text-center text-2xl bg-gray-800 text-white border-none rounded p-1">
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <button id="save-settings" class="px-4 py-1 text-lg font-bold rounded" style="background-color: var(--settings-bg); color: var(--settings-fg);">SAVE NOW</button>
+                <button id="back-to-timer" class="px-4 py-1 text-lg font-bold rounded" style="background-color: var(--button-bg); color: var(--button-fg);">BACK TO TIMER</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Default sound (base64-encoded WAV, short beep)
+        const defaultSoundData = 'data:audio/wav;base64,UklGRjQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+
+        // Configuration management
+        function loadConfig() {
+            const defaultConfig = {
+                hours: '0',
+                minutes: '1',
+                seconds: '0',
+                interval: '0.5',
+                sound_list: ['default.wav'],
+                selected_sound: 'default.wav',
+                theme: 'dark'
+            };
+            const config = JSON.parse(localStorage.getItem('timer_config')) || defaultConfig;
+            return config;
+        }
+
+        function saveConfig(config) {
+            localStorage.setItem('timer_config', JSON.stringify(config));
+        }
+
+        // Theme management
+        function applyTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+        }
+
+        // Sound management
+        const soundCache = new Map();
+        let currentSound = null;
+
+        async function loadSound(soundName) {
+            if (soundCache.has(soundName)) {
+                currentSound = soundCache.get(soundName);
+                return;
+            }
+            try {
+                const audio = new Audio(soundName === 'default.wav' ? defaultSoundData : soundName);
+                await audio.load();
+                soundCache.set(soundName, audio);
+                currentSound = audio;
+            } catch (e) {
+                alert(`Could not load sound: ${e.message}`);
+                currentSound = null;
+            }
+        }
+
+        function playSound() {
+            if (currentSound) {
+                currentSound.currentTime = 0;
+                currentSound.play().catch(e => console.error('Sound play error:', e));
+            }
+        }
+
+        // Timer logic
+        let timerRunning = false;
+        let stopFlag = false;
+        let elapsedTime = 0;
+        let timerInterval = null;
+
+        function updateProgressBar(value, max) {
+            const progress = document.getElementById('progress');
+            progress.style.width = `${(value / max) * 100}%`;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `TIME LEFT: ${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function runTimer(totalSeconds, intervalSeconds) {
+            elapsedTime = elapsedTime || 0;
+            let nextSoundTime = intervalSeconds || totalSeconds + 1;
+
+            timerInterval = setInterval(() => {
+                if (stopFlag || elapsedTime >= totalSeconds) {
+                    clearInterval(timerInterval);
+                    timerRunning = false;
+                    const startStopBtn = document.getElementById('start-stop');
+                    startStopBtn.textContent = 'START TIMER';
+                    startStopBtn.style.backgroundColor = getComputedStyle(document.body).getPropertyValue('--button-bg');
+                    if (stopFlag) {
+                        document.getElementById('time-display').textContent = 'TIMER STOPPED ⛔';
+                    } else {
+                        document.getElementById('time-display').textContent = 'DONE ✅';
+                        playSound();
+                    }
+                    return;
+                }
+
+                elapsedTime++;
+                updateProgressBar(elapsedTime, totalSeconds);
+                document.getElementById('time-display').textContent = formatTime(totalSeconds - elapsedTime);
+
+                if (elapsedTime === nextSoundTime && elapsedTime < totalSeconds) {
+                    playSound();
+                    nextSoundTime += intervalSeconds;
+                }
+            }, 1000);
+        }
+
+        function toggleTimer() {
+            if (timerRunning) {
+                stopFlag = true;
+                timerRunning = false;
+            } else {
+                const hours = parseInt(document.getElementById('hours').value) || 0;
+                const minutes = parseInt(document.getElementById('minutes').value) || 0;
+                const seconds = parseInt(document.getElementById('seconds').value) || 0;
+                const interval = parseFloat(document.getElementById('interval').value) || 0;
+
+                const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+                const intervalSeconds = Math.round(interval * 60);
+
+                if (totalSeconds <= 0) {
+                    document.getElementById('time-display').textContent = 'SET TIME FIRST';
+                    return;
+                }
+
+                timerRunning = true;
+                stopFlag = false;
+                const startStopBtn = document.getElementById('start-stop');
+                startStopBtn.textContent = 'STOP TIMER';
+                startStopBtn.style.backgroundColor = getComputedStyle(document.body).getPropertyValue('--stop-color');
+                updateProgressBar(0, totalSeconds);
+                runTimer(totalSeconds, intervalSeconds);
+            }
+        }
+
+        // UI setup
+        const config = loadConfig();
+        applyTheme(config.theme);
+        document.getElementById('hours').value = config.hours;
+        document.getElementById('minutes').value = config.minutes;
+        document.getElementById('seconds').value = config.seconds;
+        document.getElementById('interval').value = config.interval;
+        document.getElementById('default-hours').value = config.hours;
+        document.getElementById('default-minutes').value = config.minutes;
+        document.getElementById('default-seconds').value = config.seconds;
+        document.getElementById('default-interval').value = config.interval;
+
+        const soundChoice = document.getElementById('sound-choice');
+        soundChoice.innerHTML = config.sound_list.map(sound => `<option value="${sound}">${sound}</option>`).join('');
+        soundChoice.value = config.selected_sound;
+        loadSound(config.selected_sound);
+
+        // Event listeners
+        document.getElementById('start-stop').addEventListener('click', toggleTimer);
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            document.getElementById('timer-page').classList.add('hidden');
+            document.getElementById('settings-page').classList.remove('hidden');
+        });
+        document.getElementById('back-to-timer').addEventListener('click', () => {
+            document.getElementById('settings-page').classList.add('hidden');
+            document.getElementById('timer-page').classList.remove('hidden');
+        });
+        document.getElementById('save-settings').addEventListener('click', () => {
+            const newConfig = {
+                hours: document.getElementById('default-hours').value,
+                minutes: document.getElementById('default-minutes').value,
+                seconds: document.getElementById('default-seconds').value,
+                interval: document.getElementById('default-interval').value,
+                sound_list: Array.from(soundChoice.options).map(opt => opt.value),
+                selected_sound: soundChoice.value,
+                theme: document.body.getAttribute('data-theme')
+            };
+            saveConfig(newConfig);
+            document.getElementById('hours').value = newConfig.hours;
+            document.getElementById('minutes').value = newConfig.minutes;
+            document.getElementById('seconds').value = newConfig.seconds;
+            document.getElementById('interval').value = newConfig.interval;
+            alert('Settings saved successfully.');
+        });
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const theme = btn.getAttribute('data-theme');
+                applyTheme(theme);
+                saveConfig({ ...loadConfig(), theme });
+            });
+        });
+        document.getElementById('add-sound').addEventListener('click', () => {
+            document.getElementById('sound-input').click();
+        });
+        document.getElementById('sound-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const soundName = file.name;
+                if (!config.sound_list.includes(soundName)) {
+                    config.sound_list.push(soundName);
+                    soundChoice.innerHTML += `<option value="${soundName}">${soundName}</option>`;
+                }
+                soundChoice.value = soundName;
+                loadSound(url);
+                saveConfig({ ...loadConfig(), sound_list: config.sound_list, selected_sound: soundName });
+            }
+        });
+        document.getElementById('remove-sound').addEventListener('click', () => {
+            const selected = soundChoice.value;
+            if (config.sound_list.length <= 1) {
+                alert('You must keep at least one sound file.');
+                return;
+            }
+            if (config.sound_list.includes(selected)) {
+                config.sound_list = config.sound_list.filter(s => s !== selected);
+                soundChoice.innerHTML = config.sound_list.map(sound => `<option value="${sound}">${sound}</option>`).join('');
+                soundChoice.value = config.sound_list[0];
+                loadSound(config.sound_list[0]);
+                saveConfig({ ...loadConfig(), sound_list: config.sound_list, selected_sound: config.sound_list[0] });
+            }
+        });
+        soundChoice.addEventListener('change', () => {
+            loadSound(soundChoice.value);
+            saveConfig({ ...loadConfig(), selected_sound: soundChoice.value });
+        });
+
+        // Input validation
+        function restrictInput(input, maxLength, maxValue) {
+            input.addEventListener('input', () => {
+                let value = input.value.replace(/\D/g, '');
+                if (value.length > maxLength) value = value.slice(0, maxLength);
+                if (parseInt(value) > maxValue) value = maxValue.toString();
+                input.value = value;
+            });
+        }
+
+        restrictInput(document.getElementById('hours'), 2, 99);
+        restrictInput(document.getElementById('minutes'), 2, 59);
+        restrictInput(document.getElementById('seconds'), 2, 59);
+        restrictInput(document.getElementById('default-hours'), 2, 99);
+        restrictInput(document.getElementById('default-minutes'), 2, 59);
+        restrictInput(document.getElementById('default-seconds'), 2, 59);
+
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').catch(e => console.error('Service Worker registration failed:', e));
+        }
+    </script>
+</body>
+</html>

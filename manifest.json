@@ -1,0 +1,16 @@
+{
+    "name": "Alpha Timer",
+    "short_name": "Timer",
+    "description": "A customizable timer app",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#1e1e1e",
+    "theme_color": "#1e1e1e",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
